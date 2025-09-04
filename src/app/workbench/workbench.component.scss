@@ -34,8 +34,16 @@
 }
 
 /* Stylized inner elements matching the mock */
-.doc-icon { font-size: 3rem; color: #6c63ff; }
-.down-arrow { font-size: 2rem; color: #6c63ff; }
+.doc-icon {
+    font-size: 3rem;
+    color: #6c63ff;
+}
+
+.down-arrow {
+    font-size: 2rem;
+    color: #6c63ff;
+}
+
 .cta-button {
     display: inline-block;
     background: #5b55d6;
@@ -45,7 +53,14 @@
     border-radius: 2rem;
     font-weight: 700;
     letter-spacing: .5px;
-    box-shadow: 0 8px 16px rgba(91,85,214,.3);
+    box-shadow: 0 8px 16px rgba(91, 85, 214, .3);
 }
-.cta-button:hover { filter: brightness(1.05); }
-.helper-notes { color: #6c63ff; font-size: .85rem; }
+
+.cta-button:hover {
+    filter: brightness(1.05);
+}
+
+.helper-notes {
+    color: #6c63ff;
+    font-size: .85rem;
+}
