@@ -1,0 +1,51 @@
+.upload-panel {
+    background: #f8f9fa;
+    border-radius: 1rem;
+    border: 1px solid #e5e7eb;
+}
+
+.dropzone {
+    border: 2px dashed #6c63ff;
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: background-color .2s ease, box-shadow .2s ease;
+}
+
+.dropzone.dragging {
+    background: rgba(108, 99, 255, .08);
+    box-shadow: 0 0 0 .2rem rgba(108, 99, 255, .25);
+}
+
+.output-panel {
+    height: 480px;
+    border: 2px dashed #6c63ff;
+    border-radius: 1rem;
+    color: #9a96d1;
+    overflow: auto;
+    background: #ffffff;
+}
+
+.output-panel pre {
+    min-height: 100%;
+    font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: .9rem;
+    color: #343a40;
+    white-space: pre;
+}
+
+/* Stylized inner elements matching the mock */
+.doc-icon { font-size: 3rem; color: #6c63ff; }
+.down-arrow { font-size: 2rem; color: #6c63ff; }
+.cta-button {
+    display: inline-block;
+    background: #5b55d6;
+    color: #fff;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 2rem;
+    font-weight: 700;
+    letter-spacing: .5px;
+    box-shadow: 0 8px 16px rgba(91,85,214,.3);
+}
+.cta-button:hover { filter: brightness(1.05); }
+.helper-notes { color: #6c63ff; font-size: .85rem; }

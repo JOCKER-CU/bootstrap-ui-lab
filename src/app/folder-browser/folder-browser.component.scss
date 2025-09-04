@@ -1,0 +1,45 @@
+.folder-card:hover,
+.file-card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.folder-icon,
+.file-icon {
+    font-size: 1.4rem;
+    margin-right: .5rem;
+}
+
+.file-icon.pdf {
+    color: #dc3545;
+}
+
+.file-icon.xlsx {
+    color: #198754;
+}
+
+.file-icon.csv {
+    color: #0d6efd;
+}
+
+.file-icon.docx {
+    color: #0d6efd;
+}
+
+.text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Selected styles */
+.folder-card.selected,
+.list-group-item.selected {
+    border: 2px solid #0d6efd;
+    box-shadow: 0 0 0 .2rem rgba(13, 110, 253, .25);
+}
+
+.folder-card.selected .fw-bold,
+.list-group-item.selected .fw-bold {
+    color: #0d6efd;
+}

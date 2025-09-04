@@ -1,0 +1,156 @@
+<div class="container py-3">
+    <div class="row">
+        <div class="col-lg-9">
+            <div class="d-flex align-items-center mb-3">
+                <div class="btn-group me-2">
+                    <button class="btn btn-light" title="Info" (click)="openInfo()">ℹ️</button>
+                    <button class="btn btn-light" [class.active]="viewMode==='grid'" (click)="setView('grid')"
+                        title="Grid">▦</button>
+                    <button class="btn btn-light" [class.active]="viewMode==='list'" (click)="setView('list')"
+                        title="List">≡</button>
+                    <button class="btn btn-light" title="Recent">🕘</button>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">🔎</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="Search..." [value]="query"
+                        (input)="query=$any($event.target).value" />
+                </div>
+            </div>
+
+            <h5 class="mb-2">Folders</h5>
+            <div class="row g-3" *ngIf="viewMode==='grid'; else listFolders">
+                <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let f of filteredFolders">
+                    <div class="card h-100 folder-card" [ngClass]="{selected: selectedFolder?.id===f.id}"
+                        (click)="selectFolder(f)">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <div class="d-flex align-items-start">
+                                <span class="folder-icon mr-2">📁</span>
+                                <div>
+                                    <div class="fw-bold">{{ f.name }}</div>
+                                    <small class="text-muted">{{ f.subtitle }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #listFolders>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex align-items-center" *ngFor="let f of filteredFolders"
+                        [ngClass]="{selected: selectedFolder?.id===f.id}" (click)="selectFolder(f)">
+                        <span class="me-2">📁</span>
+                        <div class="flex-grow-1">
+                            <div class="fw-bold">{{ f.name }}</div>
+                            <small class="text-muted">{{ f.subtitle }}</small>
+                        </div>
+                    </li>
+                </ul>
+            </ng-template>
+
+            <h5 class="mt-4 mb-2">Files</h5>
+            <div class="row g-3" *ngIf="viewMode==='grid'; else listFiles">
+                <div class="col-sm-6 col-md-4 col-lg-3" *ngFor="let file of filteredFiles">
+                    <div class="card h-100 file-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <span class="file-icon mr-2" [ngClass]="file.type">{{ file.type === 'image' ? '🖼️' :
+                                    (file.type === 'pdf' ? '📄' : '📦') }}</span>
+                                <div class="flex-grow-1">
+                                    <div class="fw-bold text-truncate" title="{{ file.name }}">{{ file.name }}</div>
+                                    <small class="text-muted">{{ file.subtitle }}</small>
+                                    <div><small class="text-muted">Updated: {{ file.updatedAt | date:'mediumDate'
+                                            }}</small></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-white border-0 pt-0" *ngIf="file.tag">
+                            <span class="badge bg-warning text-dark">{{ file.tag }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-template #listFiles>
+                <ul class="list-group">
+                    <li class="list-group-item d-flex align-items-center" *ngFor="let file of filteredFiles">
+                        <span class="me-2">{{ file.type === 'image' ? '🖼️' : (file.type === 'pdf' ? '📄' : '📦')
+                            }}</span>
+                        <div class="flex-grow-1">
+                            <div class="fw-bold text-truncate" title="{{ file.name }}">{{ file.name }}</div>
+                            <small class="text-muted d-block">{{ file.subtitle }}</small>
+                            <small class="text-muted">Updated: {{ file.updatedAt | date:'mediumDate' }}</small>
+                        </div>
+                        <span *ngIf="file.tag" class="badge bg-warning text-dark">{{ file.tag }}</span>
+                    </li>
+                </ul>
+            </ng-template>
+        </div>
+
+        <div class="col-lg-3">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2"><span class="me-2">📚</span><strong>Group By</strong>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="groupBy" id="gbNone"
+                            [checked]="groupBy==='none'" (change)="groupBy='none'">
+                        <label class="form-check-label" for="gbNone">None</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="groupBy" id="gbType"
+                            [checked]="groupBy==='type'" (change)="groupBy='type'">
+                        <label class="form-check-label" for="gbType">Type</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2"><span class="me-2">🕒</span><strong>Last Updated
+                            on</strong></div>
+                    <div class="btn-group w-100 mb-2">
+                        <button class="btn btn-outline-secondary" [class.active]="selectedPeriod==='day'"
+                            (click)="setPeriod('day')">Day</button>
+                        <button class="btn btn-outline-secondary" [class.active]="selectedPeriod==='week'"
+                            (click)="setPeriod('week')">Week</button>
+                        <button class="btn btn-outline-secondary" [class.active]="selectedPeriod==='month'"
+                            (click)="setPeriod('month')">Month</button>
+                        <button class="btn btn-outline-secondary" [class.active]="selectedPeriod==='year'"
+                            (click)="setPeriod('year')">Year</button>
+                    </div>
+                    <button class="btn btn-sm btn-link p-0" (click)="clearPeriod()">Clear filter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Modal -->
+    <div class="modal fade show" tabindex="-1" style="display:block; background: rgba(0,0,0,.5);"
+        *ngIf="showInfo && selectedFolder">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ selectedFolder?.name }}</h5>
+                    <button type="button" class="close" (click)="closeInfo()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex mb-3">
+                        <div class="display-4 me-3">📁</div>
+                        <div>
+                            <div class="text-muted">Details</div>
+                            <div><strong>Type</strong>: File folder</div>
+                            <div><strong>File location</strong>: {{ selectedFolder?.location }}</div>
+                            <div><strong>Date modified</strong>: {{ selectedFolder?.modifiedAt | date:'short' }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" (click)="closeInfo()">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

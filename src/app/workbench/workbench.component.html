@@ -1,0 +1,71 @@
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0">Bank Statement</h2>
+        <div class="btn-group">
+            <button class="btn btn-outline-secondary" title="Info">ℹ️</button>
+            <button class="btn btn-outline-primary active" title="Grid">▦</button>
+            <button class="btn btn-outline-secondary" title="List">≡</button>
+            <button class="btn btn-outline-secondary" title="Clock">🕘</button>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="upload-panel p-4">
+                <div class="text-center my-4">
+                    <div class="display-4">📄</div>
+                </div>
+                <div class="dropzone" [class.dragging]="isDragging" (dragover)="onDragOver($event)"
+                    (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+                    <div class="text-center" *ngIf="!previewUrl">
+                        <div class="doc-icon mb-3">📄</div>
+                        <div class="down-arrow mb-3">⬇️</div>
+                        <button class="cta-button" (click)="fileInput.click()">DRAG YOUR FILES HERE OR CLICK<br />IN
+                            THIS AREA FOR CREATE DOC TYPE</button>
+                        <div class="helper-notes mt-3">
+                            <div>• FILE SIZE MUST BE UNDER 10MB</div>
+                            <div>• SUPPORTS .PNG, .TIFF, JPEG, .JPG</div>
+                            <div>• SIZE NO SMALLER THAN 512 X 512 AND NO LARGER THAN 10,000 X 10,000 PIXELS</div>
+                        </div>
+                    </div>
+                    <img *ngIf="previewUrl" [src]="previewUrl" alt="preview" class="img-fluid d-block mx-auto"
+                        style="max-height: 280px;" />
+                    <input #fileInput type="file" class="d-none" (change)="onFileSelect($event)" multiple>
+                </div>
+                <div class="mt-3" *ngIf="files.length">
+                    <div class="small text-muted mb-1">Selected:</div>
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let f of files">{{ f.name }}</li>
+                    </ul>
+                </div>
+                <div class="text-center mt-4">
+                    <button class="btn btn-primary" (click)="submit()">Submit</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div class="text-muted">Output</div>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Format">
+                    <button class="btn btn-outline-secondary" [class.active]="outputFormat==='json'"
+                        (click)="setFormat('json')">JSON</button>
+                    <button class="btn btn-outline-secondary" [class.active]="outputFormat==='csv'"
+                        (click)="setFormat('csv')">CSV</button>
+                    <button class="btn btn-outline-secondary" [class.active]="outputFormat==='text'"
+                        (click)="setFormat('text')">Text</button>
+                </div>
+            </div>
+            <div class="output-panel p-4">
+                <ng-container *ngIf="showOutput; else hint">
+                    <pre class="m-0" *ngIf="outputFormat==='json'">{{ displayOutput }}</pre>
+                    <pre class="m-0" *ngIf="outputFormat!=='json'">{{ displayOutput }}</pre>
+                </ng-container>
+                <ng-template #hint>
+                    <div class="h-100 d-flex align-items-center justify-content-center text-muted">
+                        Add an image and click Submit to see mock JSON here
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
