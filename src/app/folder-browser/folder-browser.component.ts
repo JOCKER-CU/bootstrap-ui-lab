@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 interface FolderItem {
     id: number;
@@ -29,6 +30,8 @@ export class FolderBrowserComponent {
     viewMode: 'grid' | 'list' = 'grid';
     selectedFolder: FolderItem | null = null;
     showInfo = false;
+
+    constructor(private router: Router) { }
 
     folders: FolderItem[] = [
         { id: 1, name: 'Payroll', subtitle: 'In HR', location: 'D:/Company/HR/Payroll', modifiedAt: addDays(-3) },
@@ -95,6 +98,16 @@ export class FolderBrowserComponent {
 
     closeInfo() {
         this.showInfo = false;
+    }
+
+    onFolderDoubleClick(folder: FolderItem) {
+        // Navigate to image gallery with folder information
+        this.router.navigate(['/image-gallery'], {
+            queryParams: {
+                folderName: folder.name,
+                folderId: folder.id
+            }
+        });
     }
 }
 

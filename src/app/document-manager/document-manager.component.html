@@ -1,0 +1,164 @@
+<div class="document-manager-container">
+    <div class="d-flex h-100">
+        <!-- Left Pane - Document List -->
+        <div class="document-list-pane flex-grow-1">
+            <div class="pane-header">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="mb-0">Documents</h5>
+                    <div class="d-flex align-items-center">
+                        <div class="input-group" style="width: 200px;">
+                            <input type="text" class="form-control form-control-sm" placeholder="Search..."
+                                [value]="searchQuery" (input)="searchQuery=$any($event.target).value">
+                            <div class="input-group-append">
+                                <span class="input-group-text">🔍</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-secondary btn-sm ms-2" title="Sort">
+                            ⇅
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="document-table">
+                <div class="table-responsive">
+                    <table class="table table-hover ">
+                        <thead>
+                            <tr>
+                                <th class="text-center checkbox-column">
+                                    <input type="checkbox" class="form-check-input">
+                                </th>
+                                <th class="text-center star-column">⭐</th>
+                                <th>Name</th>
+                                <th>Folder</th>
+                                <th>Owner</th>
+                                <th>Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let doc of filteredDocuments" [class.table-active]="doc.isSelected"
+                                (click)="selectDocument(doc)" class="document-row">
+                                <td class="text-center">
+                                    <input type="checkbox" class="form-check-input" [checked]="doc.isSelected">
+                                </td>
+                                <td class="text-center">
+                                    <span class="star-icon" [class.favorited]="doc.isFavorite"
+                                        (click)="toggleFavorite(doc); $event.stopPropagation()">
+                                        ⭐
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span class="document-icon me-2">{{ getDocumentIcon(doc.type) }}</span>
+                                        <span class="document-name" [title]="doc.name">{{ doc.name }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="folder-name">{{ doc.folder }}</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img [src]="doc.ownerAvatar" [alt]="doc.owner" class="avatar me-2" width="20"
+                                            height="20">
+                                        <span class="owner-name">{{ doc.owner }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center" *ngIf="doc.contact">
+                                        <img [src]="doc.contactLogo" [alt]="doc.contact" class="contact-logo me-2"
+                                            width="16" height="16" *ngIf="doc.contactLogo">
+                                        <span class="contact-name">{{ doc.contact }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Pane - Document Details -->
+        <div class="document-details-pane" style="width: 400px; flex-shrink: 0;" *ngIf="hasSingleSelection()">
+            <div>
+                <!-- Document Header -->
+                <div class="document-header mb-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="folder-icon me-2">📁</span>
+                        <span class="file-path">{{ selectedDocument.folder }} / {{ selectedDocument.name }}</span>
+                        <span class="file-size ms-2">({{ selectedDocument.size }})</span>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="me-4">
+                            <small class="text-muted d-block">Owner</small>
+                            <div class="d-flex align-items-center">
+                                <img [src]="selectedDocument.ownerAvatar" [alt]="selectedDocument.owner"
+                                    class="avatar me-2" width="24" height="24">
+                                <span>{{ selectedDocument.owner }}</span>
+                            </div>
+                        </div>
+
+                        <div class="me-4" *ngIf="selectedDocument.contact">
+                            <small class="text-muted d-block">Contact</small>
+                            <div class="d-flex align-items-center">
+                                <img [src]="selectedDocument.contactLogo" [alt]="selectedDocument.contact"
+                                    class="contact-logo me-2" width="20" height="20"
+                                    *ngIf="selectedDocument.contactLogo">
+                                <span>{{ selectedDocument.contact }}</span>
+                                <span class="dropdown-arrow ms-1">▼</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-3">
+                        <a href="#" class="linked-to me-3">Linked To {{ selectedDocument.linkedTo }}</a>
+                        <span class="badge bg-{{ getStatusColor(selectedDocument.status || '') }} status-badge">
+                            {{ selectedDocument.status }} ✕
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons mb-4">
+                    <button class="btn btn-primary me-2" (click)="sendMessage()">
+                        Send message
+                    </button>
+                    <button class="btn btn-outline-primary" (click)="logNote()">
+                        Log note
+                    </button>
+
+                    <div class="action-icons ms-auto">
+                        <span class="action-icon" title="Search">🔍</span>
+                        <span class="action-icon" title="Attachments">
+                            📎 {{ selectedDocument.attachments }}
+                        </span>
+                        <span class="action-icon following" title="Following">
+                            👤 {{ selectedDocument.followers }} Following
+                        </span>
+                        <span class="date-info">{{ formatDate(selectedDocument.lastModified) }}</span>
+                    </div>
+                </div>
+
+                <!-- Activity Log -->
+                <div class="activity-log">
+                    <h6 class="text-muted mb-3">Activity</h6>
+                    <div class="activity-list">
+                        <div class="activity-item" *ngFor="let activity of activities">
+                            <div class="d-flex align-items-start">
+                                <img [src]="activity.userAvatar" [alt]="activity.user" class="activity-avatar me-3"
+                                    width="32" height="32">
+                                <div class="activity-content">
+                                    <div class="d-flex align-items-center mb-1">
+                                        <span class="activity-user me-2">{{ activity.user }}</span>
+                                        <span class="activity-timestamp">{{ formatTime(activity.timestamp) }}</span>
+                                    </div>
+                                    <p class="activity-message mb-0">{{ activity.message }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

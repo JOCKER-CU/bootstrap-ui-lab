@@ -1,0 +1,399 @@
+.document-manager-container {
+    height: 100vh;
+    background-color: #f8f9fa;
+    padding: 1rem;
+
+    .d-flex {
+        height: 100%;
+        gap: 1rem;
+    }
+}
+
+.document-list-pane {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    height: 100%;
+    overflow-y: auto;
+    border-right: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+
+    &:only-child {
+        border-right: none;
+    }
+}
+
+.document-details-pane {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.pane-header {
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1rem;
+    margin: -1rem -1rem 1rem -1rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.document-table {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    overflow: hidden;
+
+    .table {
+        margin-bottom: 0;
+        font-size: 0.9rem;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table th {
+        border-top: none;
+        border-bottom: 2px solid #dee2e6;
+        font-weight: 600;
+        color: #495057;
+        font-size: 0.875rem;
+        padding: 1rem 0.5rem;
+        background-color: #f8f9fa;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        white-space: nowrap;
+    }
+
+    .table td {
+        border-top: 1px solid #f1f3f4;
+        padding: 1rem 0.5rem;
+        vertical-align: middle;
+    }
+
+    .checkbox-column,
+    .table td:first-child {
+        width: 50px;
+        min-width: 50px;
+        max-width: 50px;
+        text-align: center;
+        padding: 0.75rem 0.25rem;
+    }
+
+    .star-column,
+    .table td:nth-child(2) {
+        width: 50px;
+        min-width: 50px;
+        max-width: 50px;
+        text-align: center;
+        padding: 0.75rem 0.25rem;
+    }
+
+    // Checkbox styling
+    .form-check-input {
+        margin: 0;
+        transform: scale(0.9);
+        cursor: pointer;
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+    }
+
+    .form-check-input:checked {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .form-check-input:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    // Ensure checkboxes don't overflow
+    .checkbox-column,
+    .table td:first-child {
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .star-column,
+    .table td:nth-child(2) {
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .document-row {
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        &.table-active {
+            background-color: #e3f2fd;
+            border-left: 4px solid #007bff;
+        }
+    }
+}
+
+.document-icon {
+    font-size: 1.2rem;
+}
+
+.document-name {
+    font-weight: 500;
+    color: #212529;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.folder-name {
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+
+.avatar {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.owner-name {
+    font-size: 0.875rem;
+    color: #495057;
+}
+
+.contact-logo {
+    border-radius: 0.25rem;
+    object-fit: cover;
+}
+
+.contact-name {
+    font-size: 0.875rem;
+    color: #495057;
+}
+
+.star-icon {
+    cursor: pointer;
+    font-size: 1rem;
+    opacity: 0.3;
+    transition: opacity 0.2s ease;
+
+    &.favorited {
+        opacity: 1;
+    }
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+// Document Details Styles
+.document-header {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 1rem;
+}
+
+.file-path {
+    font-weight: 500;
+    color: #212529;
+    font-size: 1.1rem;
+}
+
+.file-size {
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+
+.folder-icon {
+    color: #6c757d;
+    font-size: 1.2rem;
+}
+
+.linked-to {
+    color: #0d6efd;
+    text-decoration: none;
+    font-size: 0.875rem;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.status-badge {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 1rem;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 1rem;
+}
+
+.action-icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.action-icon {
+    color: #6c757d;
+    font-size: 0.875rem;
+    cursor: pointer;
+
+    &.following {
+        color: #198754;
+    }
+}
+
+.date-info {
+    color: #6c757d;
+    font-size: 0.875rem;
+}
+
+// Activity Log Styles
+.activity-log {
+    .activity-item {
+        padding: 1rem 0;
+        border-bottom: 1px solid #f1f3f4;
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    .activity-avatar {
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .activity-user {
+        font-weight: 500;
+        color: #212529;
+        font-size: 0.875rem;
+    }
+
+    .activity-timestamp {
+        color: #6c757d;
+        font-size: 0.75rem;
+    }
+
+    .activity-message {
+        color: #495057;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+}
+
+.no-selection {
+    .text-muted {
+        font-size: 3rem;
+        opacity: 0.5;
+    }
+}
+
+// Tablet adjustments
+@media (max-width: 992px) and (min-width: 769px) {
+
+    .checkbox-column,
+    .table td:first-child,
+    .star-column,
+    .table td:nth-child(2) {
+        width: 45px;
+        min-width: 45px;
+        max-width: 45px;
+    }
+
+    .form-check-input {
+        transform: scale(0.95);
+        width: 17px;
+        height: 17px;
+    }
+
+    .document-name {
+        max-width: 200px;
+    }
+}
+
+// Mobile adjustments
+@media (max-width: 768px) {
+    .document-manager-container {
+        height: auto;
+        padding: 0.5rem;
+
+        .d-flex {
+            flex-direction: column;
+            height: auto;
+        }
+    }
+
+    .document-list-pane,
+    .document-details-pane {
+        height: 50vh;
+        width: 100% !important;
+        flex-shrink: 1 !important;
+    }
+
+    .document-name {
+        max-width: 150px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .action-icons {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    // Mobile table adjustments
+    .table th,
+    .table td {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.8rem;
+    }
+
+    .checkbox-column,
+    .table td:first-child,
+    .star-column,
+    .table td:nth-child(2) {
+        width: 35px;
+        min-width: 35px;
+        max-width: 35px;
+        padding: 0.5rem 0.125rem;
+    }
+
+    .form-check-input {
+        transform: scale(0.8);
+        width: 16px;
+        height: 16px;
+    }
+
+    .document-name {
+        max-width: 120px;
+        font-size: 0.75rem;
+    }
+
+    .owner-name,
+    .contact-name {
+        font-size: 0.75rem;
+    }
+}

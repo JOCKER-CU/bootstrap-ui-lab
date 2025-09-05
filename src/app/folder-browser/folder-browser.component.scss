@@ -43,3 +43,33 @@
 .list-group-item.selected .fw-bold {
     color: #0d6efd;
 }
+
+/* Double-click visual feedback */
+.folder-card {
+    position: relative;
+    transition: transform 0.1s ease;
+}
+
+.folder-card:active {
+    transform: scale(0.98);
+}
+
+.folder-card::after {
+    content: "Double-click to view images";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 123, 255, 0.9);
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.25rem;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    border-radius: 0 0 0.375rem 0.375rem;
+}
+
+.folder-card:hover::after {
+    opacity: 1;
+}

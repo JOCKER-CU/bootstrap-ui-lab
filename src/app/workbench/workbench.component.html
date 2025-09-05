@@ -18,7 +18,7 @@
                 <div class="dropzone" [class.dragging]="isDragging" (dragover)="onDragOver($event)"
                     (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
                     <div class="text-center" *ngIf="!previewUrl">
-                        <div class="doc-icon mb-3">📄</div>
+                        <!-- <div class="doc-icon mb-3">📄</div> -->
                         <div class="down-arrow mb-3">⬇️</div>
                         <button class="cta-button" (click)="fileInput.click()">DRAG YOUR FILES HERE OR CLICK<br />IN
                             THIS AREA FOR CREATE DOC TYPE</button>
